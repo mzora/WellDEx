@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Repository("fakeDao")
+@Repository("testDao")
 public class FakePointDataAccessService implements PointDao{
     private static List<Point> DB = new ArrayList<>();
 

@@ -1,7 +1,13 @@
 package com.example.demo.api;
 
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.model.Point;
+import com.example.demo.service.PointService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RequestMapping("api/v1/point")
 @RestController
 public class PointController {
     /*Add a point to the space
@@ -16,5 +22,26 @@ public class PointController {
 
         Remove all points from the space
         DELETE /space*/
-    
+
+    private final PointService pointService;
+
+    @Autowired
+    public PointController(PointService pointService) {
+        this.pointService = pointService;
+    }
+
+    @PostMapping
+    public void addPoint(@RequestBody Point point){
+        pointService.addPoint(point);
+    }
+
+    @GetMapping
+    public List<Point> getAllPoints(){
+        return pointService.getAllPoints();
+    }
+
+    @DeleteMapping
+    public void deleteAllPoints(){
+        pointService.deleteAllPoints();
+    }
 }
