@@ -8,7 +8,7 @@ public interface PointDao {
 
     List<Point> selectAllPoints();
 
-    int getLines(int nPoints);
+    List<Point> getLines(int nPoints);
 
     int deleteAllPoints();
 }

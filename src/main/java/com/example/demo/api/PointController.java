@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("api/v1/point")
+@RequestMapping
 @RestController
 public class PointController {
     /*Add a point to the space
@@ -35,13 +35,19 @@ public class PointController {
         pointService.addPoint(point);
     }
 
-    @GetMapping
+    @GetMapping("/space")
     public List<Point> getAllPoints(){
         return pointService.getAllPoints();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/space")
     public void deleteAllPoints(){
         pointService.deleteAllPoints();
     }
+    //GET /lines/{n}
+    @GetMapping("/lines/{nPoints}")
+    public List<Point> getLines(@PathVariable("nPoints") int nPoints){
+        return pointService.getLines(nPoints);
+    }
+
 }

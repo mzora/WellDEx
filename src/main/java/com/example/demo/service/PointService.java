@@ -29,4 +29,7 @@ public class PointService {
         return pointDao.deleteAllPoints();
     }
 
+    public List<Point> getLines(int n){
+        return pointDao.getLines(n);
+    }
 }
