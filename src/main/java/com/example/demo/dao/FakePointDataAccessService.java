@@ -5,19 +5,20 @@ import com.example.demo.model.Segment;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository("testDao")
 public class FakePointDataAccessService implements PointDao{
     private final static List<Point> DB = new ArrayList<>();
+    //private final static Map<Double, List<Segment>> segmentiXPendenza = new HashMap<>();
 
-    private final static Map<Double, List<Segment>> segmentiXPendenza = new HashMap<>();
+    private final static List<Segment> DbSegments = new ArrayList<>();
 
     @Override
     public int insertPoint(Point point) {
         DB.add(new Point(point.getX(),point.getY()));
-
-        if(DB.size()>1) {
-            for (int i=0;i<DB.size()-1;i++) {
+        /*if(DB.size()>1) {
+            for (int i=0; i<DB.size()-1; i++) {
                 Segment s = new Segment(point, DB.get(i));
                 System.out.println(s.toString());
                 if(segmentiXPendenza.containsKey(s.getPendenza())){
@@ -27,9 +28,14 @@ public class FakePointDataAccessService implements PointDao{
                     newLista.add(s);
                     segmentiXPendenza.put(s.getPendenza(), newLista);
                 }
+            }*/
+        if(DB.size()>1) {
+            for (int i=0; i<DB.size()-1; i++) {
+                Segment s = new Segment(point, DB.get(i));
+                DbSegments.add(s);
+                //TODO: se la pendenza==0 || pendenza==infinito,considerare solo val.assoluto
             }
         }
-
         return 1;
     }
 
@@ -38,11 +44,15 @@ public class FakePointDataAccessService implements PointDao{
         return DB;
     }
 
-
-    /*Ottieni tutti i segmenti di linea che passano per almeno N punti*/
+    //ottenere dalla mappa quell'indice che contiene n-1 segmenti per quella pendenza
     @Override
     public List<Point> getLines(int nPoints) {
+        Map<Double, List<Segment>> lista = DbSegments.stream()
+                .collect(Collectors.groupingBy(o -> o.getPendenza()));
 
+        lista.entrySet().stream().forEach((entry) -> {
+            System.out.println(entry.getValue().size());
+        });
         return null;
     }
 

@@ -10,11 +10,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Point {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
-    public Point(@JsonProperty("x") int x,
-                 @JsonProperty("y") int y) {
+    public Point(@JsonProperty("x") double x,
+                 @JsonProperty("y") double y) {
         this.x = x;
         this.y = y;
     }
