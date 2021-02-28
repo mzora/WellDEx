@@ -47,13 +47,40 @@ public class FakePointDataAccessService implements PointDao{
     //ottenere dalla mappa quell'indice che contiene n-1 segmenti per quella pendenza
     @Override
     public List<Point> getLines(int nPoints) {
+        //raggruppamento per pendenza
         Map<Double, List<Segment>> lista = DbSegments.stream()
-                .collect(Collectors.groupingBy(o -> o.getPendenza()));
+                .collect(Collectors
+                        .groupingBy(Segment::getPendenza));
 
-        lista.entrySet().stream().forEach((entry) -> {
-            System.out.println(entry.getValue().size());
-        });
-        return null;
+        //conteggio segmenti per pendenza
+        Map<Double, Long> pendenzaCount = DbSegments.stream()
+                .collect(Collectors
+                        .groupingBy(Segment::getPendenza,Collectors.counting())
+        );
+
+        // - iterare la mappa pendenzaCount
+        //      e trovare per quale pendenza ci sono almeno (nPoints-1) segmenti
+        // - mettere il risultato in una lista di segmenti
+        // - per ogni segmento prendere i punti e metterli un una lista
+        // TODO: di questa lista prendere i punti una sola volta (distinct?)
+        //  return questa lista di punti
+
+        Double pendenzaOk = null;
+        for (Map.Entry<Double, Long> entry : pendenzaCount.entrySet()) {
+            Double key=entry.getKey();
+            Long value=entry.getValue();
+            if(value >= nPoints-1){
+                pendenzaOk += key;
+            }
+        }
+
+        List<Segment> segments = lista.get(pendenzaOk);
+        List<Point> result = new ArrayList<>();
+        for (Segment segment :segments) {
+            result.add(segment.getA());
+            result.add(segment.getB());
+        }
+        return result;
     }
 
     @Override
