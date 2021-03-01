@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class FakePointDataAccessService implements PointDao{
     private final static List<Point> DB = new ArrayList<>();
     //private final static Map<Double, List<Segment>> segmentiXPendenza = new HashMap<>();
-
     private final static List<Segment> DbSegments = new ArrayList<>();
 
     @Override
@@ -65,7 +64,7 @@ public class FakePointDataAccessService implements PointDao{
         // TODO: di questa lista prendere i punti una sola volta (distinct?)
         //  return questa lista di punti
 
-        Double pendenzaOk = null;
+        Double pendenzaOk = 0.0;
         for (Map.Entry<Double, Long> entry : pendenzaCount.entrySet()) {
             Double key=entry.getKey();
             Long value=entry.getValue();
